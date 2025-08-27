@@ -1,0 +1,29 @@
+version: "3.9"
+services:
+  keycloak:
+    image: keycloak26dev
+    environment:
+      KC_DB: mysql
+      KC_DB_URL: jdbc:mysql://db:3306/keycloak?useSSL=false&allowPublicKeyRetrieval=true
+      KC_DB_USERNAME: admin
+      KC_DB_PASSWORD: admin
+      KC_HOSTNAME: localhost
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8
+    environment:
+      MYSQL_DATABASE: keycloak
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:
